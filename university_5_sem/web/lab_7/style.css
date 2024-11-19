@@ -1,0 +1,49 @@
+.parent {
+    height: 500px;
+    display: grid;
+    grid: repeat(4, 1fr) / repeat(3, 1fr);
+    gap: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.parent div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+}
+
+.child_1 {
+    grid-column: 1 / 2 span;
+    background-color: #ABF3B4;
+}
+
+.child_2 {
+    background-color: yellow;
+}
+
+.child_3 {
+    grid-row: 2 / 2 span;
+    background-color: #5CFBFB;
+}
+
+.child_4 {
+    grid-column: 2 / 2 span;
+    background-color: #E7C0F9;
+}
+
+.child_5 {
+    background-color: #8BFBCC;
+}
+
+.child_6 {
+    background-color: #FBC367;
+}
+
+.child_7 {
+    grid-column-end: 3 span;
+    background-color: #ABF3B4;
+}
