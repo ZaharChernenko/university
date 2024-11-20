@@ -1,0 +1,96 @@
+body {
+    margin: 0px;
+    background-color: #cccccc;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.index-header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.index-header__link {
+    border-radius: 50%;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #222222;
+    font-size: 2vw;
+    line-height: 80px;
+    text-align: center;
+    width: 80px;
+}
+
+.index-header__h1 {
+    font-size: 3vw;
+}
+
+.index-header__search-block form {
+    width: 300px;
+    height: 40px; 
+    display: flex;
+    margin: 0 auto;
+}
+
+input.search {
+    font-size: 15px;
+    width: calc(100% - 54px);
+    height: auto;
+    background-color: #ffffff;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border: 0;
+    padding-left: 15px;
+    border-top: 1px solid #000000;
+    border-left: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+
+input.submit {
+    background: url("https://img.icons8.com/000000/search") center center/50% auto no-repeat #808080;
+    border: 0;
+    width: 54px;
+    height: auto;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.index-nav {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #222222;
+    height: 75px;
+}
+
+.index-nav__link {
+    font-size: 2vw;
+    text-decoration: none;
+    color: #0095bd;
+}
+
+.index-main {
+    display: flex;
+    padding: 0 10%;
+    gap: 10%;
+}
+
+.index-main__upper-element {
+    padding: 0 5%;
+}
+
+.index-main__icon {
+    width: 100%;
+    height: 200px;
+    background-color: #222222;
+}
+
+.index-footer {
+    background-color: #222222;
+    color: #ffffff;
+    text-align: center;
+    line-height: 75px;
+    height: 75px;
+}
