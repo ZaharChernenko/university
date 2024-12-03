@@ -10,6 +10,7 @@ header {
     padding: 10px;
 }
 
+
 .header_a {
     text-decoration: none;
     color: #ffffff;
@@ -28,7 +29,7 @@ header {
 
 .search_block form {
     width: 300px;
-    height: 50px; 
+    height: 50px;
     display: flex;
     margin: 0 auto;
 }
