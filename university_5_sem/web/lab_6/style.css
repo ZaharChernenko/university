@@ -1,35 +1,34 @@
 body {
     margin: 0px;
     background-color: #cccccc;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
-header {
+.index-header {
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
 }
 
-
-.header_a {
+.index-header__link {
+    border-radius: 50%;
     text-decoration: none;
     color: #ffffff;
-    background-color: #000000;
-    font-size: 20px;
-    height: 100px;
-    width: 100px;
-    line-height: 100px;
-    border-radius: 50px;
+    background-color: #222222;
+    font-size: 2vw;
+    line-height: 80px;
     text-align: center;
+    width: 80px;
 }
 
-.header_h1 {
+.index-header__h1 {
     font-size: 3vw;
 }
 
-.search_block form {
+.index-header__search-block form {
     width: 300px;
-    height: 50px;
+    height: 40px; 
     display: flex;
     margin: 0 auto;
 }
@@ -57,7 +56,7 @@ input.submit {
     border-bottom-right-radius: 6px;
 }
 
-.under_header {
+.index-nav {
     margin-bottom: 50px;
     display: flex;
     justify-content: space-around;
@@ -66,25 +65,29 @@ input.submit {
     height: 75px;
 }
 
-.under_header_link {
+.index-nav__link {
     font-size: 2vw;
     text-decoration: none;
     color: #0095bd;
 }
 
-main {
-    padding: 0px 150px;
+.index-main {
     display: flex;
-    justify-content: space-around;
-    gap: 120px;
+    padding: 0 10%;
+    gap: 10%;
 }
 
-.third_icon {
+.index-main__upper-element {
+    padding: 0 5%;
+}
+
+.index-main__icon {
+    width: 100%;
     height: 200px;
     background-color: #222222;
 }
 
-footer {
+.index-footer {
     background-color: #222222;
     color: #ffffff;
     text-align: center;
