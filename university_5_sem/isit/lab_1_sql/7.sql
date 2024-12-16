@@ -1,0 +1,8 @@
+SELECT * FROM Студент
+WHERE Фамилия LIKE '%ский';
+
+SELECT * FROM Студент
+WHERE LEN(Имя) <= 4;
+
+SELECT * FROM Студент
+WHERE YEAR(CURRENT_TIMESTAMP) - YEAR(Дата_рождения) BETWEEN 25 AND 30;  -- DATEDIFF(YEAR, Дата_рождения, CURRENT_TIMESTAMP) BETWEEN 25 AND 30;
