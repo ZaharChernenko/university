@@ -6,31 +6,28 @@ using isit_7.storage;
 
 namespace isit_7.stored_procedures
 {
+    /*
     public class TAddHoursModel
     {
-        protected readonly IExamStorage m_exam_storage;
-
-        public TAddHoursModel(IExamStorage exam_storage)
+        public TAddHoursModel(IDisciplineStorage discipline_storage, IExamStorage exam_storage)
         {
+            m_discipline_storage = discipline_storage ?? throw new ArgumentNullException(nameof(discipline_storage));
             m_exam_storage = exam_storage ?? throw new ArgumentNullException(nameof(exam_storage));
         }
 
-        public DataTable GetExamsData()
-        {
-            return m_exam_storage.GetExamsData();
-        }
+        public DataTable GetExamData() => m_exam_storage.GetExamData();
+        public void AddHours(in string exam, int hours) => m_exam_storage.AddHours(exam, hours);
+        public string[] GetDisciplineNames() => m_discipline_storage.GetDisciplineNames();
 
-        public void AddHours(in string exam, int hours)
-        {
-            m_exam_storage.AddHours(exam, hours);
-        }
 
+        protected readonly IDisciplineStorage m_discipline_storage;
+        protected readonly IExamStorage m_exam_storage;
     }
 
     public class TAddHoursView : UserControl
     {
         private readonly DataGridView dataGridViewExams;
-        private readonly TextBox textBoxExam;
+        private readonly ComboBox comboBoxDisciplines; // Заменяем TextBox на ComboBox
         private readonly NumericUpDown numericUpDownHours;
         private readonly Button buttonAddHours;
 
@@ -47,10 +44,10 @@ namespace isit_7.stored_procedures
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect
             };
 
-            textBoxExam = new TextBox
+            comboBoxDisciplines = new ComboBox
             {
                 Dock = DockStyle.Top,
-                Text = "Название экзамена"
+                DropDownStyle = ComboBoxStyle.DropDownList // Делаем выпадающий список нередактируемым
             };
 
             numericUpDownHours = new NumericUpDown
@@ -70,15 +67,25 @@ namespace isit_7.stored_procedures
             // Компоновка элементов
             Controls.Add(buttonAddHours);
             Controls.Add(numericUpDownHours);
-            Controls.Add(textBoxExam);
+            Controls.Add(comboBoxDisciplines);
             Controls.Add(dataGridViewExams);
         }
 
         // Свойства для доступа к элементам управления
         public DataGridView ExamsGridView => dataGridViewExams;
-        public string ExamName => textBoxExam.Text;
+        public string SelectedDiscipline => comboBoxDisciplines.SelectedItem?.ToString();
         public int Hours => (int)numericUpDownHours.Value;
         public Button AddHoursButton => buttonAddHours;
+
+        // Метод для загрузки дисциплин в выпадающий список
+        public void LoadDisciplines(string[] disciplines)
+        {
+            comboBoxDisciplines.Items.Clear();
+            comboBoxDisciplines.Items.AddRange(disciplines);
+
+            if (comboBoxDisciplines.Items.Count > 0)
+                comboBoxDisciplines.SelectedIndex = 0;
+        }
 
         // Метод для привязки данных
         public void BindExamsData(DataTable data)
@@ -89,7 +96,8 @@ namespace isit_7.stored_procedures
         // Метод для очистки полей
         public void ClearInputs()
         {
-            textBoxExam.Text = string.Empty;
+            if (comboBoxDisciplines.Items.Count > 0)
+                comboBoxDisciplines.SelectedIndex = 0;
             numericUpDownHours.Value = numericUpDownHours.Minimum;
         }
     }
@@ -110,17 +118,32 @@ namespace isit_7.stored_procedures
         private void Initialize()
         {
             // Загрузка данных при инициализации
+            LoadDisciplines();
             LoadExamsData();
 
             // Подписка на события
             _view.AddHoursButton.Click += OnAddHoursClicked;
         }
 
+        private void LoadDisciplines()
+        {
+            try
+            {
+                var disciplines = _model.GetDisciplineNames();
+                _view.LoadDisciplines(disciplines);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки списка дисциплин: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void LoadExamsData()
         {
             try
             {
-                var examsData = _model.GetExamsData(); // Замените "Exams" на вашу таблицу
+                var examsData = _model.GetExamData();
                 _view.BindExamsData(examsData);
             }
             catch (Exception ex)
@@ -134,14 +157,14 @@ namespace isit_7.stored_procedures
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(_view.ExamName))
+                if (string.IsNullOrWhiteSpace(_view.SelectedDiscipline))
                 {
-                    MessageBox.Show("Введите название экзамена", "Ошибка",
+                    MessageBox.Show("Выберите дисциплину из списка", "Ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                _model.AddHours(_view.ExamName, _view.Hours);
+                _model.AddHours(_view.SelectedDiscipline, _view.Hours);
                 _view.ClearInputs();
                 LoadExamsData(); // Обновляем данные после добавления
 
@@ -155,4 +178,5 @@ namespace isit_7.stored_procedures
             }
         }
     }
+    */
 }

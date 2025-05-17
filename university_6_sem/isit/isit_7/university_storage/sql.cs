@@ -2,29 +2,43 @@
 
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace isit_7.storage
 {
-    public class TUniversitySQLStorageHelperMixin
+    public class SqlConnectionProvider
     {
-        // di не работает с in, поэтому передача по значению
-        public TUniversitySQLStorageHelperMixin(IConfiguration configuration)
+        public SqlConnectionProvider(string connectionString)
         {
-            m_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            mConnectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
         }
 
-        protected DataTable GetTableData(in string table_name)
+        public SqlConnection GetConnection()
         {
-            var connectionString = GetConnectionString();
-            var dataTable = new DataTable();
+            var connection = new SqlConnection(mConnectionString);
+            return connection;
+        }
+        protected readonly string mConnectionString;
+    }
 
-            using (var connection = new SqlConnection(connectionString))
-            using (var cmd = new SqlCommand($"SELECT * FROM {table_name}", connection))
+    public class SqlTableReaderMixin
+    {
+        public SqlTableReaderMixin(SqlConnectionProvider connectionProvider)
+        {
+            mConnectionProvider = connectionProvider ?? throw new ArgumentNullException(nameof(connectionProvider));
+        }
+
+        public DataTable GetTableData(in string tableName)
+        {
+            var dataTable = new DataTable();
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var command = connection.CreateCommand())
             {
-                connection.Open();
-                using (var adapter = new SqlDataAdapter(cmd))
+                command.CommandText = $"SELECT * FROM {tableName}";
+
+                using (var adapter = new SqlDataAdapter((SqlCommand)command))
                 {
                     adapter.Fill(dataTable);
                 }
@@ -33,28 +47,18 @@ namespace isit_7.storage
             return dataTable;
         }
 
-        protected string GetConnectionString()
-        {
-            return m_configuration.GetConnectionString("university")
-                ?? throw new InvalidOperationException("Connection string 'university' not found in configuration");
-        }
-
-        protected readonly IConfiguration m_configuration;
+        protected readonly SqlConnectionProvider mConnectionProvider;
     }
 
-    public class TExamSQLStorage : TUniversitySQLStorageHelperMixin, IExamStorage
+    public class TSQLUniversityRepository : SqlTableReaderMixin, IUniversityRepository
     {
         // через двоеточие инициализируется только базовый класс,
         // а не все элементы класса, как в C++
-        public TExamSQLStorage(IConfiguration configuration) : base(configuration)
-        {
-        }
+        public TSQLUniversityRepository(SqlConnectionProvider connectionProvider) : base(connectionProvider) {}
 
         public void AddHours(in string exam, int hours)
         {
-            var connectionString = GetConnectionString();
-
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = mConnectionProvider.GetConnection())
             using (var cmd = new SqlCommand("add_hours", connection))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -76,15 +80,30 @@ namespace isit_7.storage
             }
         }
 
-        public DataTable GetExamsData()
+        public DataTable GetExamData()
         {
-            return GetTableData(GetExamTableName());
+            return GetTableData(mExamTableName);
         }
 
-        protected string GetExamTableName()
+        public string[] GetDisciplineNames()
         {
-            return m_configuration.GetSection("Tables")["exam"]
-               ?? throw new InvalidOperationException("Table name 'exam' not found in configuration");
+            var disciplineNames = new List<string>();
+
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand($"SELECT Наименование_дисциплины FROM {mDisciplineTableName}", connection))
+            {
+                connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                        disciplineNames.Add(reader.GetString(0));
+                }
+            }
+
+            return disciplineNames.ToArray(); // Убираем дубликаты и возвращаем массив
         }
+
+        protected readonly IConfiguration mConfiguration;
+        protected readonly string mDisciplineTableName = "Дисциплина", mExamTableName = "Экзамен";
     }
 }

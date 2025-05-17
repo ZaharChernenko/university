@@ -21,7 +21,8 @@ namespace isit_7
             // adapter.AddHours("Прикладной дизайн", 228);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(new TDIContainer()));
+            new TDIContainer();
+            // Application.Run(new MainForm());
         }
     }
 }

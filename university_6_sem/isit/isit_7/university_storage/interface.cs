@@ -2,9 +2,12 @@
 
 namespace isit_7.storage
 {
-    public interface IExamStorage
+
+    public interface IUniversityRepository
     {
         void AddHours(in string exam, int hours);
-        DataTable GetExamsData();
+        DataTable GetExamData();
+        string[] GetDisciplineNames();
+
     }
 }

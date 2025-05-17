@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace isit_7
 {
+    /*
     public class MainForm : Form
     {
         protected readonly TabControl main_tab_control;
@@ -46,8 +47,10 @@ namespace isit_7
 
             var view = new TAddHoursView { Dock = DockStyle.Fill };
             addHoursTab.Controls.Add(view);
-            var model = new TAddHoursModel(m_container.GetService<IExamStorage>());
-            var controller = new TAddHoursController(model, view);
+
+            // var model = new TAddHoursModel(m_container.GetService<IDisciplineStorage>(), m_container.GetService<IExamStorage>());
+            // var controller = new TAddHoursController(model, view);
         }
     }
+    */
 }
