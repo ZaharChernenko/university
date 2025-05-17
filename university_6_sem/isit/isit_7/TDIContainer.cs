@@ -5,6 +5,7 @@ using System.IO;
 using isit_7.storage;
 using System.Runtime.InteropServices;
 using System;
+using isit_7.stored_procedures;
 
 namespace isit_7
 {
@@ -18,7 +19,7 @@ namespace isit_7
     {
         public T GetService<T>() where T : class
         {
-            return m_provider.GetRequiredService<T>();
+            return mProvider.GetRequiredService<T>();
         }
 
         public TDIContainer()
@@ -33,9 +34,17 @@ namespace isit_7
             services.AddSingleton<SqlConnectionProvider>(new SqlConnectionProvider(configuration.GetConnectionString(TDContainerVars.CONF_UNIVERSITY_DATABASE)));
             services.AddSingleton<IUniversityRepository, TSQLUniversityRepository>();
 
-            m_provider = services.BuildServiceProvider();
+            services.AddSingleton<TAddHoursModel, TAddHoursModel>();
+            services.AddSingleton<TAddHoursTabPage, TAddHoursTabPage>();
+            services.AddSingleton<TAddHoursController, TAddHoursController>();
+
+            services.AddSingleton<TTabPage, TTabPage>();
+
+            services.AddSingleton<MainForm, MainForm>();
+            
+            mProvider = services.BuildServiceProvider();
         }
         
-        protected ServiceProvider m_provider;
+        protected ServiceProvider mProvider;
     }
 }

@@ -17,12 +17,13 @@ namespace isit_7
         [STAThread]
         static void Main()
         {
-            // var adapter = new TAddHoursModel(container.GetService<IConfiguration>());
-            // adapter.AddHours("Прикладной дизайн", 228);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            new TDIContainer();
-            // Application.Run(new MainForm());
+
+            var container = new TDIContainer();
+            container.GetService<TAddHoursController>();
+            container.GetService<TAddHoursTabPage>();
+            Application.Run(container.GetService<MainForm>());
         }
     }
 }

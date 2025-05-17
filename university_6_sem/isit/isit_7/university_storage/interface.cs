@@ -7,6 +7,7 @@ namespace isit_7.storage
     {
         void AddHours(in string exam, int hours);
         DataTable GetExamData();
+        DataTable GetExamWithDisciplineNamesData();
         string[] GetDisciplineNames();
 
     }

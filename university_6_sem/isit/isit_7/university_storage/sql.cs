@@ -1,6 +1,4 @@
-﻿using isit_7.storage;
-
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,7 +34,7 @@ namespace isit_7.storage
             using (var connection = mConnectionProvider.GetConnection())
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = $"SELECT * FROM {tableName}";
+                command.CommandText = $"SELECT * FROM \"{tableName}\"";
 
                 using (var adapter = new SqlDataAdapter((SqlCommand)command))
                 {
@@ -85,6 +83,23 @@ namespace isit_7.storage
             return GetTableData(mExamTableName);
         }
 
+        public DataTable GetExamWithDisciplineNamesData()
+        {
+            var dataTable = new DataTable();
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = $"SELECT \"{mExamTableName}\".*, \"{mDisciplineTableName}\".Наименование_дисциплины AS \"Дисциплина\" FROM \"{mExamTableName}\", \"{mDisciplineTableName}\" WHERE \"{mDisciplineTableName}\".Код_дисциплины = \"{mExamTableName}\".Код_дисциплины";
+
+                using (var adapter = new SqlDataAdapter((SqlCommand)command))
+                {
+                    adapter.Fill(dataTable);
+                }
+            }
+
+            return dataTable;
+        }
+
         public string[] GetDisciplineNames()
         {
             var disciplineNames = new List<string>();
@@ -100,7 +115,7 @@ namespace isit_7.storage
                 }
             }
 
-            return disciplineNames.ToArray(); // Убираем дубликаты и возвращаем массив
+            return disciplineNames.ToArray();
         }
 
         protected readonly IConfiguration mConfiguration;

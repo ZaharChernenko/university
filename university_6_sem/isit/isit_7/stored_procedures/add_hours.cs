@@ -6,131 +6,122 @@ using isit_7.storage;
 
 namespace isit_7.stored_procedures
 {
-    /*
     public class TAddHoursModel
     {
-        public TAddHoursModel(IDisciplineStorage discipline_storage, IExamStorage exam_storage)
+        public TAddHoursModel(IUniversityRepository universityRepository)
         {
-            m_discipline_storage = discipline_storage ?? throw new ArgumentNullException(nameof(discipline_storage));
-            m_exam_storage = exam_storage ?? throw new ArgumentNullException(nameof(exam_storage));
+            mUniversityRepository = universityRepository ?? throw new ArgumentNullException(nameof(universityRepository));
         }
 
-        public DataTable GetExamData() => m_exam_storage.GetExamData();
-        public void AddHours(in string exam, int hours) => m_exam_storage.AddHours(exam, hours);
-        public string[] GetDisciplineNames() => m_discipline_storage.GetDisciplineNames();
+        public DataTable GetExamWithDisciplineNamesData() => mUniversityRepository.GetExamWithDisciplineNamesData();
+        public void AddHours(in string exam, int hours) => mUniversityRepository.AddHours(exam, hours);
+        public string[] GetDisciplineNames() => mUniversityRepository.GetDisciplineNames();
 
 
-        protected readonly IDisciplineStorage m_discipline_storage;
-        protected readonly IExamStorage m_exam_storage;
+        protected readonly IUniversityRepository mUniversityRepository;
     }
 
-    public class TAddHoursView : UserControl
+    public class TAddHoursTabPage : TabPage
     {
-        private readonly DataGridView dataGridViewExams;
-        private readonly ComboBox comboBoxDisciplines; // Заменяем TextBox на ComboBox
-        private readonly NumericUpDown numericUpDownHours;
-        private readonly Button buttonAddHours;
+        protected readonly DataGridView mDataGridViewExams;
+        protected readonly ComboBox mComboBoxDisciplines;
+        protected readonly NumericUpDown mNumericUpDownHours;
+        protected readonly Button mButtonAddHours;
 
-        public TAddHoursView()
+        public TAddHoursTabPage()
         {
-            // Инициализация компонентов
-            dataGridViewExams = new DataGridView
+            Text = "Добавление часов";
+
+            mDataGridViewExams = new DataGridView
             {
                 Dock = DockStyle.Top,
                 Height = 200,
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
 
-            comboBoxDisciplines = new ComboBox
+            mComboBoxDisciplines = new ComboBox
             {
                 Dock = DockStyle.Top,
-                DropDownStyle = ComboBoxStyle.DropDownList // Делаем выпадающий список нередактируемым
+                DropDownStyle = ComboBoxStyle.DropDownList
             };
 
-            numericUpDownHours = new NumericUpDown
+            mNumericUpDownHours = new NumericUpDown
             {
                 Dock = DockStyle.Top,
-                Minimum = 1,
-                Maximum = 100,
-                Value = 1
+                Minimum = decimal.MinValue,
+                Maximum = decimal.MaxValue,
+                Value = 0
             };
 
-            buttonAddHours = new Button
+            mButtonAddHours = new Button
             {
                 Dock = DockStyle.Top,
                 Text = "Добавить часы"
             };
 
-            // Компоновка элементов
-            Controls.Add(buttonAddHours);
-            Controls.Add(numericUpDownHours);
-            Controls.Add(comboBoxDisciplines);
-            Controls.Add(dataGridViewExams);
+            Controls.Add(mButtonAddHours);
+            Controls.Add(mNumericUpDownHours);
+            Controls.Add(mComboBoxDisciplines);
+            Controls.Add(mDataGridViewExams);
         }
+        
+        // read-only properties
+        public string GetSelectedDiscipline => mComboBoxDisciplines.SelectedItem?.ToString();
+        public NumericUpDown GetNumericUpDownHours => mNumericUpDownHours;
+        public Button GetButtonAddHours => mButtonAddHours;
 
-        // Свойства для доступа к элементам управления
-        public DataGridView ExamsGridView => dataGridViewExams;
-        public string SelectedDiscipline => comboBoxDisciplines.SelectedItem?.ToString();
-        public int Hours => (int)numericUpDownHours.Value;
-        public Button AddHoursButton => buttonAddHours;
-
-        // Метод для загрузки дисциплин в выпадающий список
         public void LoadDisciplines(string[] disciplines)
         {
-            comboBoxDisciplines.Items.Clear();
-            comboBoxDisciplines.Items.AddRange(disciplines);
+            mComboBoxDisciplines.Items.Clear();
+            mComboBoxDisciplines.Items.AddRange(disciplines);
 
-            if (comboBoxDisciplines.Items.Count > 0)
-                comboBoxDisciplines.SelectedIndex = 0;
+            if (mComboBoxDisciplines.Items.Count > 0)
+                mComboBoxDisciplines.SelectedIndex = 0;
         }
 
-        // Метод для привязки данных
         public void BindExamsData(DataTable data)
         {
-            dataGridViewExams.DataSource = data;
+            mDataGridViewExams.DataSource = data;
         }
 
-        // Метод для очистки полей
         public void ClearInputs()
         {
-            if (comboBoxDisciplines.Items.Count > 0)
-                comboBoxDisciplines.SelectedIndex = 0;
-            numericUpDownHours.Value = numericUpDownHours.Minimum;
+            if (mComboBoxDisciplines.Items.Count > 0)
+                mComboBoxDisciplines.SelectedIndex = 0;
+            mNumericUpDownHours.Value = 0;
         }
     }
 
     public class TAddHoursController
     {
-        private readonly TAddHoursModel _model;
-        private readonly TAddHoursView _view;
+        private readonly TAddHoursModel mModel;
+        private readonly TAddHoursTabPage mView;
 
-        public TAddHoursController(TAddHoursModel model, TAddHoursView view)
+        public TAddHoursController(TAddHoursModel model, TAddHoursTabPage view)
         {
-            _model = model ?? throw new ArgumentNullException(nameof(model));
-            _view = view ?? throw new ArgumentNullException(nameof(view));
+            mModel = model ?? throw new ArgumentNullException(nameof(model));
+            mView = view ?? throw new ArgumentNullException(nameof(view));
 
             Initialize();
         }
 
         private void Initialize()
         {
-            // Загрузка данных при инициализации
             LoadDisciplines();
             LoadExamsData();
-
-            // Подписка на события
-            _view.AddHoursButton.Click += OnAddHoursClicked;
+            mView.GetButtonAddHours.Click += OnAddHoursClicked;
         }
 
         private void LoadDisciplines()
         {
             try
             {
-                var disciplines = _model.GetDisciplineNames();
-                _view.LoadDisciplines(disciplines);
+                var disciplines = mModel.GetDisciplineNames();
+                mView.LoadDisciplines(disciplines);
             }
             catch (Exception ex)
             {
@@ -143,8 +134,8 @@ namespace isit_7.stored_procedures
         {
             try
             {
-                var examsData = _model.GetExamData();
-                _view.BindExamsData(examsData);
+                var examsData = mModel.GetExamWithDisciplineNamesData();
+                mView.BindExamsData(examsData);
             }
             catch (Exception ex)
             {
@@ -157,16 +148,15 @@ namespace isit_7.stored_procedures
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(_view.SelectedDiscipline))
+                if (string.IsNullOrWhiteSpace(mView.GetSelectedDiscipline))
                 {
-                    MessageBox.Show("Выберите дисциплину из списка", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Выберите дисциплину из списка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                _model.AddHours(_view.SelectedDiscipline, _view.Hours);
-                _view.ClearInputs();
-                LoadExamsData(); // Обновляем данные после добавления
+                mModel.AddHours(mView.GetSelectedDiscipline, (int)mView.GetNumericUpDownHours.Value);
+                mView.ClearInputs();
+                LoadExamsData();
 
                 MessageBox.Show("Часы успешно добавлены", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -178,5 +168,4 @@ namespace isit_7.stored_procedures
             }
         }
     }
-    */
 }
