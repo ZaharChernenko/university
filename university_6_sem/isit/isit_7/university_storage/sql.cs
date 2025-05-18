@@ -79,6 +79,17 @@ namespace isit_7.storage
             }
         }
 
+        public void AddCash()
+        {
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand("add_cash", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public void AddCashWhereEqualTo(int equalTo, int addAmount)
         {
             using (var connection = mConnectionProvider.GetConnection())
@@ -101,7 +112,6 @@ namespace isit_7.storage
                 connection.Open();
                 cmd.ExecuteNonQuery();
             }
-
         }
 
         public DataTable GetExamData()

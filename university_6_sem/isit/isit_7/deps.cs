@@ -43,6 +43,10 @@ namespace isit_7
             services.AddSingleton<TAddCashWhereEqualToTabPage, TAddCashWhereEqualToTabPage>();
             services.AddSingleton<TAddCashWhereEqualToController, TAddCashWhereEqualToController>();
 
+            services.AddSingleton<TAddCashModel, TAddCashModel>();
+            services.AddSingleton<TAddCashTabPage, TAddCashTabPage>();
+            services.AddSingleton<TAddCashController, TAddCashController>();
+
             services.AddSingleton<stored_procedures.TTabPage, stored_procedures.TTabPage>();
             services.AddSingleton<stored_procedures.TControllersAggregator, stored_procedures.TControllersAggregator>();
 
