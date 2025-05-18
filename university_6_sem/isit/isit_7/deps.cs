@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace isit_7
 {
-    public class TDContainerVars
+    public class TDIContainerVars
     {
         public static readonly string CONF_FILENAME = "appsettings.json";
         public static readonly string CONF_UNIVERSITY_DATABASE = "university";
@@ -27,12 +27,12 @@ namespace isit_7
 
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(TDContainerVars.CONF_FILENAME)
+                .AddJsonFile(TDIContainerVars.CONF_FILENAME)
                 .Build();
 
             var services = new ServiceCollection();
 
-            services.AddSingleton<SqlConnectionProvider>(new SqlConnectionProvider(configuration.GetConnectionString(TDContainerVars.CONF_UNIVERSITY_DATABASE)));
+            services.AddSingleton<SqlConnectionProvider>(new SqlConnectionProvider(configuration.GetConnectionString(TDIContainerVars.CONF_UNIVERSITY_DATABASE)));
             services.AddSingleton<IUniversityRepository, TSQLUniversityRepository>();
 
             services.AddSingleton<TAddHoursModel, TAddHoursModel>();
