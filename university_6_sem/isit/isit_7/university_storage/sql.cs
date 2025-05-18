@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing.Printing;
 
 namespace isit_7.storage
 {
@@ -78,9 +79,39 @@ namespace isit_7.storage
             }
         }
 
+        public void AddCashWhereEqualTo(int equalTo, int addAmount)
+        {
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand("add_cash_where_equal", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@equal_to",
+                    SqlDbType = SqlDbType.Int,
+                    Value = equalTo
+                });
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@add_amount",
+                    SqlDbType = SqlDbType.Int,
+                    Value = addAmount
+                });
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+        }
+
         public DataTable GetExamData()
         {
             return GetTableData(mExamTableName);
+        }
+
+        public DataTable GetStudentData()
+        {
+            return GetTableData(mStudentTableName);
         }
 
         public DataTable GetExamWithDisciplineNamesData()
@@ -119,6 +150,6 @@ namespace isit_7.storage
         }
 
         protected readonly IConfiguration mConfiguration;
-        protected readonly string mDisciplineTableName = "Дисциплина", mExamTableName = "Экзамен";
+        protected readonly string mDisciplineTableName = "Дисциплина", mExamTableName = "Экзамен", mStudentTableName = "Студент";
     }
 }

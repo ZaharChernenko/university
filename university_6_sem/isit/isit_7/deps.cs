@@ -39,6 +39,10 @@ namespace isit_7
             services.AddSingleton<TAddHoursTabPage, TAddHoursTabPage>();
             services.AddSingleton<TAddHoursController, TAddHoursController>();
 
+            services.AddSingleton<TAddCashWhereEqualToModel, TAddCashWhereEqualToModel>();
+            services.AddSingleton<TAddCashWhereEqualToTabPage, TAddCashWhereEqualToTabPage>();
+            services.AddSingleton<TAddCashWhereEqualToController, TAddCashWhereEqualToController>();
+
             services.AddSingleton<stored_procedures.TTabPage, stored_procedures.TTabPage>();
             services.AddSingleton<stored_procedures.TControllersAggregator, stored_procedures.TControllersAggregator>();
 

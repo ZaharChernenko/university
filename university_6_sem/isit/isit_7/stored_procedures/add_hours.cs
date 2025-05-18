@@ -1,8 +1,7 @@
-﻿using System;
+﻿using isit_7.storage;
+using System;
 using System.Data;
 using System.Windows.Forms;
-
-using isit_7.storage;
 
 namespace isit_7.stored_procedures
 {
@@ -131,8 +130,8 @@ namespace isit_7.stored_procedures
         {
             try
             {
-                var examsData = mModel.GetExamWithDisciplineNamesData();
-                mView.BindExamsData(examsData);
+                var examData = mModel.GetExamWithDisciplineNamesData();
+                mView.BindExamsData(examData);
             }
             catch (Exception ex)
             {

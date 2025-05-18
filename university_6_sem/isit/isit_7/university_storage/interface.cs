@@ -6,7 +6,10 @@ namespace isit_7.storage
     public interface IUniversityRepository
     {
         void AddHours(in string exam, int hours);
+        void AddCashWhereEqualTo(int equalTo, int addAmount);
         DataTable GetExamData();
+
+        DataTable GetStudentData();
         DataTable GetExamWithDisciplineNamesData();
         string[] GetDisciplineNames();
 
