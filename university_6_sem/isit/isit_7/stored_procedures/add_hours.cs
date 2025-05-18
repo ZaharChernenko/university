@@ -98,9 +98,6 @@ namespace isit_7.stored_procedures
 
     public class TAddHoursController
     {
-        private readonly TAddHoursModel mModel;
-        private readonly TAddHoursTabPage mView;
-
         public TAddHoursController(TAddHoursModel model, TAddHoursTabPage view)
         {
             mModel = model ?? throw new ArgumentNullException(nameof(model));
@@ -167,5 +164,8 @@ namespace isit_7.stored_procedures
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        protected readonly TAddHoursModel mModel;
+        protected readonly TAddHoursTabPage mView;
     }
 }

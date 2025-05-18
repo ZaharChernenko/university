@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System.Data.SqlClient;
-using System.IO;
-using isit_7.storage;
-using System.Runtime.InteropServices;
-using System;
+﻿using isit_7.storage;
 using isit_7.stored_procedures;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.IO;
+using System.Windows.Forms;
 
 namespace isit_7
 {
@@ -24,6 +22,9 @@ namespace isit_7
 
         public TDIContainer()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile(TDContainerVars.CONF_FILENAME)
@@ -38,9 +39,13 @@ namespace isit_7
             services.AddSingleton<TAddHoursTabPage, TAddHoursTabPage>();
             services.AddSingleton<TAddHoursController, TAddHoursController>();
 
-            services.AddSingleton<TTabPage, TTabPage>();
+            services.AddSingleton<stored_procedures.TTabPage, stored_procedures.TTabPage>();
+            services.AddSingleton<stored_procedures.TControllersAggregator, stored_procedures.TControllersAggregator>();
 
-            services.AddSingleton<MainForm, MainForm>();
+            services.AddSingleton<TMainForm, TMainForm>();
+            services.AddSingleton<TMainControllersAggregator, TMainControllersAggregator>();
+
+            services.AddSingleton<TApplication, TApplication>();
             
             mProvider = services.BuildServiceProvider();
         }
