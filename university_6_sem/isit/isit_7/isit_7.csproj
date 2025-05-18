@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="stored_procedures\add_cash.cs" />
     <Compile Include="stored_procedures\add_cash_where_equal_to.cs" />
+    <Compile Include="stored_procedures\math.cs" />
     <Compile Include="stored_procedures\stored_procedures.cs">
       <SubType>Component</SubType>
     </Compile>

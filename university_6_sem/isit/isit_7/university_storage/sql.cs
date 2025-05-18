@@ -159,6 +159,68 @@ namespace isit_7.storage
             return disciplineNames.ToArray();
         }
 
+        public int Factorial(int n)
+        {
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand("factorial_1", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@n",
+                    SqlDbType = SqlDbType.Int,
+                    Value = n 
+                });
+
+                connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        throw new InvalidOperationException("Нет результата");
+                    }
+
+                    if (reader.IsDBNull(0))
+                    {
+                        throw new ArgumentException("Факториал определен только для положительных чисел");
+                    }
+
+                    return reader.GetInt32(0);
+                }
+            }
+        }
+
+        public int Series(int n)
+        {
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand("row_sum_1", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@n",
+                    SqlDbType = SqlDbType.Int,
+                    Value = n
+                });
+
+                connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        throw new InvalidOperationException("Нет результата");
+                    }
+
+                    if (reader.IsDBNull(0))
+                    {
+                        throw new ArgumentException("Сумма ряда определена только для положительных чисел");
+                    }
+
+                    return reader.GetInt32(0);
+                }
+            }
+        }
+
         protected readonly IConfiguration mConfiguration;
         protected readonly string mDisciplineTableName = "Дисциплина", mExamTableName = "Экзамен", mStudentTableName = "Студент";
     }

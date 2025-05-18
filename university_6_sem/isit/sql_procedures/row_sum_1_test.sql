@@ -1,0 +1,1 @@
+EXEC row_sum_1 @n = 10;

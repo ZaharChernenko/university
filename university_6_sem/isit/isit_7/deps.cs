@@ -1,5 +1,6 @@
 ﻿using isit_7.storage;
 using isit_7.stored_procedures;
+using isit_7.stored_procedures.isit_7.stored_procedures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
@@ -46,6 +47,10 @@ namespace isit_7
             services.AddSingleton<TAddCashModel, TAddCashModel>();
             services.AddSingleton<TAddCashTabPage, TAddCashTabPage>();
             services.AddSingleton<TAddCashController, TAddCashController>();
+
+            services.AddSingleton<TMathOperationsModel,  TMathOperationsModel>();
+            services.AddSingleton<TMathOperationsTabPage, TMathOperationsTabPage>();
+            services.AddSingleton<TMathOperationsController, TMathOperationsController>();
 
             services.AddSingleton<stored_procedures.TTabPage, stored_procedures.TTabPage>();
             services.AddSingleton<stored_procedures.TControllersAggregator, stored_procedures.TControllersAggregator>();

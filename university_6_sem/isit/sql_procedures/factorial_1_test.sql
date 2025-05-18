@@ -1,0 +1,1 @@
+EXEC factorial_1 9;

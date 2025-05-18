@@ -15,5 +15,7 @@ namespace isit_7.storage
         DataTable GetExamWithDisciplineNamesData();
         string[] GetDisciplineNames();
 
+        int Factorial(int n);
+        int Series(int n);
     }
 }
