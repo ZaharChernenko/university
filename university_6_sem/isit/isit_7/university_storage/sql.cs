@@ -132,6 +132,24 @@ namespace isit_7.storage
             }
         }
 
+        public void AddCashWhereGreater(int bound)
+        {
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand("add_cash_where_greater", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@bound",
+                    SqlDbType = SqlDbType.Int,
+                    Value = bound
+                });
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
 
         public DataTable GetExamData()
         {
@@ -176,6 +194,24 @@ namespace isit_7.storage
             }
 
             return disciplineNames.ToArray();
+        }
+
+        public int GetAverageHours()
+        {
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand($"SELECT AVG(Количество_часов) FROM \"{mExamTableName}\"", connection))
+            {
+                connection.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        throw new InvalidOperationException("Нет результата");
+                    }
+
+                    return reader.GetInt32(0);
+                }
+            }
         }
 
         public int Factorial(int n)

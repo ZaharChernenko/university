@@ -10,11 +10,14 @@ namespace isit_7.storage
         void AddCash();
         void AddCashWhereEqualTo(int equalTo, int addAmount);
         void AddCashWhere5(int addAmount);
+        void AddCashWhereGreater(int bound);
         DataTable GetExamData();
 
         DataTable GetStudentData();
         DataTable GetExamWithDisciplineNamesData();
         string[] GetDisciplineNames();
+
+        int GetAverageHours();
 
         int Factorial(int n);
         int Series(int n);
