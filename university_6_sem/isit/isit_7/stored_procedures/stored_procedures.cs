@@ -5,7 +5,7 @@ namespace isit_7.stored_procedures
 {
     public class TTabPage : TabPage
     {
-        public TTabPage(TAddHoursTabPage addHours, TAddCashWhereEqualToTabPage addCashWhereEqualTo, TAddCashTabPage addCash, TMathOperationsTabPage math) {
+        public TTabPage(TAddHoursTabPage addHours, TAddCashWhereEqualToTabPage addCashWhereEqualTo, TAddCashTabPage addCash, TMathOperationsTabPage math, TAddCashWhere5TabPage addCashWhere5) {
             Text = "Хранимые процедуры";
 
             mNestedTabControl = new TabControl { Dock = DockStyle.Fill };
@@ -15,6 +15,7 @@ namespace isit_7.stored_procedures
             mNestedTabControl.TabPages.Add(addCashWhereEqualTo);
             mNestedTabControl.TabPages.Add(addCash);
             mNestedTabControl.TabPages.Add(math);
+            mNestedTabControl.TabPages.Add(addCashWhere5);
         }
 
         protected readonly TabControl mNestedTabControl;
@@ -22,17 +23,19 @@ namespace isit_7.stored_procedures
 
     public class TControllersAggregator
     {
-        public TControllersAggregator(TAddHoursController addHours, TAddCashWhereEqualToController addCashWhereEqualTo, TAddCashController addCash, TMathOperationsController math)
+        public TControllersAggregator(TAddHoursController addHours, TAddCashWhereEqualToController addCashWhereEqualTo, TAddCashController addCash, TMathOperationsController math, TAddCashWhere5Controller addCashWhere5)
         {
             mAddHours = addHours;
             mAddCashWhereEqualTo = addCashWhereEqualTo;
             mAddCash = addCash;
             mMathOperations = math;
+            mAddCashWhere5 = addCashWhere5;
         }
 
         protected readonly TAddHoursController mAddHours;
         protected readonly TAddCashWhereEqualToController mAddCashWhereEqualTo;
         protected readonly TAddCashController mAddCash;
         protected readonly TMathOperationsController mMathOperations;
+        protected readonly TAddCashWhere5Controller mAddCashWhere5;
     }
 }

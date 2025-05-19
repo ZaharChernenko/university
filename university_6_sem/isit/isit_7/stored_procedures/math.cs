@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace isit_7.stored_procedures
+﻿namespace isit_7.stored_procedures
 {
     using global::isit_7.storage;
     using System;

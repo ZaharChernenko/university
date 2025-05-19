@@ -9,6 +9,7 @@ namespace isit_7.storage
 
         void AddCash();
         void AddCashWhereEqualTo(int equalTo, int addAmount);
+        void AddCashWhere5(int addAmount);
         DataTable GetExamData();
 
         DataTable GetStudentData();

@@ -114,6 +114,25 @@ namespace isit_7.storage
             }
         }
 
+        public void AddCashWhere5(int addAmount)
+        {
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var cmd = new SqlCommand("add_cash_where_5", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@amount",
+                    SqlDbType = SqlDbType.Int,
+                    Value = addAmount
+                });
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
         public DataTable GetExamData()
         {
             return GetTableData(mExamTableName);
