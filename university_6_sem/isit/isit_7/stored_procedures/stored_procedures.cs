@@ -22,9 +22,9 @@ namespace isit_7.stored_procedures
         protected readonly TabControl mNestedTabControl;
     }
 
-    public class TControllersAggregator
+    public class TStoredProceduresControllersAggregator
     {
-        public TControllersAggregator(TAddHoursController addHours, TAddCashWhereEqualToController addCashWhereEqualTo, TAddCashController addCash, TMathOperationsController math, TAddCashWhere5Controller addCashWhere5, TAddCashWhereGreaterController addCashWhereGreater)
+        public TStoredProceduresControllersAggregator(TAddHoursController addHours, TAddCashWhereEqualToController addCashWhereEqualTo, TAddCashController addCash, TMathOperationsController math, TAddCashWhere5Controller addCashWhere5, TAddCashWhereGreaterController addCashWhereGreater)
         {
             mAddHours = addHours;
             mAddCashWhereEqualTo = addCashWhereEqualTo;

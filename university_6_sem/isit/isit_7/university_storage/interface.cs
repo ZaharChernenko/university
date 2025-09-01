@@ -21,5 +21,7 @@ namespace isit_7.storage
 
         int Factorial(int n);
         int Series(int n);
+
+        DataTable GetExcellentStudentsOnly();
     }
 }

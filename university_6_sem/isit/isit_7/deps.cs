@@ -61,7 +61,11 @@ namespace isit_7
             services.AddSingleton<TAddCashWhereGreaterController, TAddCashWhereGreaterController>();
 
             services.AddSingleton<stored_procedures.TTabPage, stored_procedures.TTabPage>();
-            services.AddSingleton<stored_procedures.TControllersAggregator, stored_procedures.TControllersAggregator>();
+            services.AddSingleton<stored_procedures.TStoredProceduresControllersAggregator, stored_procedures.TStoredProceduresControllersAggregator>();
+
+            services.AddSingleton<word.TWordModel, word.TWordModel>();
+            services.AddSingleton<word.TWordTabPage, word.TWordTabPage>();
+            services.AddSingleton<word.TWordController, word.TWordController>();
 
             services.AddSingleton<TMainForm, TMainForm>();
             services.AddSingleton<TMainControllersAggregator, TMainControllersAggregator>();

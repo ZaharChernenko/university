@@ -108,7 +108,7 @@ namespace isit_7.stored_procedures
             Initialize();
         }
 
-        private void Initialize()
+        protected void Initialize()
         {
             LoadStudentsData();
             LoadAverageHours();

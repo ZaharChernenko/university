@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing.Printing;
 
 namespace isit_7.storage
 {
@@ -274,6 +273,22 @@ namespace isit_7.storage
                     return reader.GetInt32(0);
                 }
             }
+        }
+
+        public DataTable GetExcellentStudentsOnly()
+        {
+            var dataTable = new DataTable();
+            using (var connection = mConnectionProvider.GetConnection())
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = $"SELECT Номер_зачетной_книжки AS '№ зачетной книжки', Фамилия, Имя, Отчество, Дата_рождения AS 'Дата рождения', Место_рождения AS 'Место рождения', Номер_группы AS '№ группы', Курс FROM \"{mStudentTableName}\" WHERE Номер_зачетной_книжки IN (SELECT Номер_зачетки FROM \"{mExamTableName}\" GROUP BY Номер_зачетки HAVING AVG(Оценка) = 5);";
+
+                using (var adapter = new SqlDataAdapter((SqlCommand)command))
+                {
+                    adapter.Fill(dataTable);
+                }
+            }
+            return dataTable;
         }
 
         protected readonly IConfiguration mConfiguration;
