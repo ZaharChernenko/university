@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Страница 1 — Форма</title>
+        <style>
+            body {
+                font-family: Arial;
+                padding: 20px;
+            }
+            form {
+                max-width: 300px;
+            }
+            input,
+            button {
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Введите данные</h2>
+
+        <form action="page2.html" method="GET">
+            <label>Ваше имя:</label>
+            <input type="text" name="name" required />
+
+            <label>Возраст:</label>
+            <input type="number" name="age" required />
+
+            <button type="submit">Отправить</button>
+        </form>
+    </body>
+</html>
