@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Страница 2 — Результат</title>
+        <style>
+            body {
+                font-family: Arial;
+                padding: 20px;
+            }
+            .box {
+                padding: 15px;
+                border: 1px solid #ccc;
+                max-width: 300px;
+            }
+            a,
+            button {
+                margin-top: 20px;
+                display: inline-block;
+                padding: 10px 15px;
+                background: #eee;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Полученные данные</h2>
+
+        <div class="box">
+            <p><b>Имя:</b> <span id="name"></span></p>
+            <p><b>Возраст:</b> <span id="age"></span></p>
+        </div>
+
+        <br />
+        <a href="page1.html">Назад</a>
+
+        <script>
+            // Получаем параметры URL
+            const params = new URLSearchParams(window.location.search);
+
+            document.getElementById("name").textContent = params.get("name");
+            document.getElementById("age").textContent = params.get("age");
+        </script>
+    </body>
+</html>
